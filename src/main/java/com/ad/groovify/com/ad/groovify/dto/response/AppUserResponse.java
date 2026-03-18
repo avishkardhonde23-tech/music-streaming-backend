@@ -1,8 +1,10 @@
 package com.ad.groovify.com.ad.groovify.dto.response;
 
+import com.ad.groovify.com.ad.groovify.entity.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jspecify.annotations.NonNull;
 
 import java.time.LocalDateTime;
 
@@ -19,4 +21,18 @@ public class AppUserResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    public static AppUserResponse fromEntity( AppUser appUser, String accessToken, String refreshToken)
+    {
+        AppUserResponse response = new AppUserResponse();
+        response.setId(appUser.getId());
+        response.setName(appUser.getName());
+        response.setEmail(appUser.getEmail());
+        response.setRole(appUser.getRole());
+        response.setAccessToken(accessToken);
+        response.setRefreshToken(refreshToken);
+        response.setCreatedAt(appUser.getCreatedAt());
+        response.setUpdatedAt(appUser.getUpdatedAt());
+        return response;
+
+    }
 }
