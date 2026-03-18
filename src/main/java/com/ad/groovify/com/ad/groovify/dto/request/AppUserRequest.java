@@ -1,6 +1,7 @@
 package com.ad.groovify.com.ad.groovify.dto.request;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +21,12 @@ public class AppUserRequest {
     @Size(min=6,message="password must be at least 6 characters")
     private String password;
 
+    private String oldpassword;
+
+    @Pattern(regexp="(USER|ADMIN)$S",message = "Role must be User or Admin")
+    private String role;
+
+    private String refreshToken;
 
 }
 
