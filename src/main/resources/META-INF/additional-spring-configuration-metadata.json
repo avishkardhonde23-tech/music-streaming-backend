@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "app.frontend.url",
+      "type": "java.lang.String",
+      "description": "Description for app.frontend.url."
+  }
+] }
