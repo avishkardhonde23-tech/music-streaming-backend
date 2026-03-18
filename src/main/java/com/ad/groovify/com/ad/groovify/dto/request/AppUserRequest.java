@@ -20,6 +20,6 @@ public class AppUserRequest {
     @Size(min=6,message="password must be at least 6 characters")
     private String password;
 
-    private
+
 }
 
