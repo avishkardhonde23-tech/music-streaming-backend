@@ -1,11 +1,14 @@
 package com.ad.groovify.com.ad.groovify.dto.response;
 
+import com.ad.groovify.com.ad.groovify.entity.Playlist;
+import com.ad.groovify.com.ad.groovify.entity.PlaylistSong;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -36,6 +39,38 @@ public class PlaylistWithSongsResponse {
         private String imageUrl;
         private Integer position;
         private LocalDateTime addedAt;
+    }
+
+    public static PlaylistWithSongsResponse fromEntity(Playlist playlist, List<PlaylistSong> playlistSongs,String baseUrl){
+    PlaylistWithSongsResponse response = new PlaylistWithSongsResponse();
+        response.setId(playlist.getId());
+        response.setName(playlist.getName());
+
+        response.setDescription(playlist.getDescription());
+        response.setIsPublic(playlist.getIsPublic());
+        response.setImageUrl(playlist.getImageUrl() !=null ? baseUrl+playlist.getImageUrl():null);
+        response.setCreatedAt(playlist.getCreatedAt());
+        response.setUpdatedAt(playlist.getUpdatedAt());
+        response.setAppUserId(playlist.getAppUser().getId());
+        response.setAppUserName(playlist.getAppUser().getName());
+        response.setSongCount(playlistSongs.size());
+
+        List<SongInPlayListResponse> songs = playlistSongs.stream()
+                .map(ps -> {
+                    SongInPlayListResponse songResponse = new SongInPlayListResponse();
+                    songResponse.setSongId(ps.getSong() .getId());
+                    songResponse.setTitle(ps.getSong().getTitle());
+                    songResponse.setArtist(ps.getSong().getArtist());
+                    songResponse.setSongUrl(ps.getSong().getSongUrl() !=null ? baseUrl+ps.getSong().getSongUrl():null);
+                    songResponse.setImageUrl(ps.getSong().getImageUrl() != null ? baseUrl+ps.getSong().getImageUrl(): null);
+                    songResponse.setPosition(ps.getPosition());
+                    songResponse.setAddedAt(ps.getAddedAt());
+                   return songResponse;
+                })
+                .collect(Collectors.toList());
+        response.setSongs(songs);
+        return response;
+
     }
 
 }
